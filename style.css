@@ -1,0 +1,14 @@
+.body{
+  font-family: verdana, sans-serif;
+}
+.container {
+  style: flex;
+  flex-direction: row;
+  height: 400px;
+  width: 500px;
+  border: 5px solid black;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 50px;
+  background-color: grey;
+}
