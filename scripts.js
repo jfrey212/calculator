@@ -8,11 +8,26 @@ let previousButton = "";
 const screen = document.querySelector(".answer");
 const buttons = document.querySelectorAll("button");
 
+// Add an event listener to each button that waits for a click, then calls
+// the press() function. A parameter from the event is passed to press() as
+// argument 'e'
+
 buttons.forEach(button => {
   button.addEventListener('click', press);
 });
 
+// I used keyUp for the keyboard press listener to only allow one call to press to
+// occurr per key press. keydown allows repeating
+
 document.addEventListener('keyup', keyPress);
+
+// Most of the operator logic is in the press() function in nested if statements.
+// Makes extensive use of the 'e' event, particuly its 'target' field
+// Uses some state variables for some logic decisions - 'operation' is true
+// when a operator key has been pressed and false for numeric entry. 'multiOperations'
+// is true once a single operation has taken place and multiple operations are
+// strung together. 'previousButton' tracks which button was pressed. 'operator'
+// tracks which operator button has been pressed.
 
 function press(e) {
   if (e.target.className === 'number') {
@@ -87,7 +102,12 @@ function press(e) {
   }
 }
 
-// The operate function rounds to three decimal placees
+// The operate function rounds to three decimal placees. Two numbers and an
+// operation are passed into the function. The numbers are set by button click
+// events as defined in press(). The operation is set by pressing an operator
+// button. The 'equal' logic in press() passes the operation id string to the
+// 'ops' object, which passes the two number number arguments into the
+// corresponding operation.
 
 function operate(x, y, operation) {
   return Math.round((operation(x,y)*1000))/1000;
@@ -200,9 +220,13 @@ function keyPress(e) {
 }
 
 // The operations started out as individual functions. I ended up using DOM
-// classes to select functions. The classes are strings, so it was much easier
+// id's to select functions. The id's are strings, so it was much easier
 // to select a function using an object key than do a bunch of string
-// comparisons to select the function
+// comparisons to select the function. The object key is the function name
+// and the value is an anonymous function that returns the result of the
+// corresponding arithmetic operation. The selection call takes the form:
+// ops[operator] where 'operator' is a string. The 'operator' is set by the
+// id of the pressed operator button.
 
 let ops = {
   plus: function(x,y) {
